@@ -1,0 +1,60 @@
+<!-- CSS only -->
+{% load static %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+<div class="p-3 mb-2 bg-dark text-white">
+    <p> Plan: <b>{{plan_name }}</b> for User:<b>{{ user_name }}</b></p>
+
+
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Category</th>
+                <th scope="col">Source</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% if user_income_list %}
+                {% for income_source in user_income_list %}
+                <tr>
+                    <th>{{ forloop.counter }}</th>
+                    <td>{{ income_source.CATEGORY }}</td>
+                    <td>{{ income_source.SOURCENAME }}</td>
+                    <td>{{ income_source.AMOUNT }}€</td>
+                    <form action="{% url 'financial_planner:delete_source' user_name plan_id income_source.SOURCEID %}"
+                        method="POST">
+                        {% csrf_token %}
+                        <td>
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </td>
+                    </form>
+                </tr>
+                {% endfor %}
+            {% endif %}
+            <tr>
+                <form action="{% url 'financial_planner:add_source' user_name plan_id %}" method="POST">
+                    {% csrf_token %}
+                    <th>New</th>
+                    <td><input type="text" name="category" class="form-control" id="CategoryID"
+                            placeholder="Enter category"></td>
+                    <td><input type="text" name="source" class="form-control" id="SourceID" placeholder="Enter source">
+                    </td>
+                    <td><input type="number" name="amount" class="form-control" id="AmountID"
+                            placeholder="Enter amount in €"></td>
+                    <td>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </td>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+    {% if user_income_list %}
+    <p> Total income: {{income_sum}}€</p>
+    {% else %}
+    <p> Total income: 0€</p>
+    {% endif %}
+</div>
