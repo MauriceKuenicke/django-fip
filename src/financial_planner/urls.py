@@ -7,7 +7,7 @@ urlpatterns = [
     # ex: /financial_planner/
     path('', views.index, name='index'),
     # ex: /financial_planner/5/5
-    path('<str:user_name>/<int:plan_id>/', views.plan, name='plan'),
+    path('<str:user_name>/<str:plan_name>/', views.plan, name='plan'),
 
     path('<str:user_name>/<int:plan_id>/addsource/', views.add_source, name='add_source'),
 

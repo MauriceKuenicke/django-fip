@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+
+<h1>Create a new Plan for Testuser</h1>
+<form action="{% url 'financial_planner:index' %}" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+</html>
